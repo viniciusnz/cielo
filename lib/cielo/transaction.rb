@@ -90,7 +90,7 @@ module Cielo
     
     def make_request!(message)
       params = { :mensagem => message.target! }
-      debugger
+      
       result = @connection.request! params
       
       parse_response(result)
