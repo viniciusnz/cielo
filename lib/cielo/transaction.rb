@@ -62,16 +62,16 @@ module Cielo
       parameters.merge!(:indicador => "1") unless parameters[:indicador]
       parameters.merge!(:moeda => "986") unless parameters[:moeda]
       parameters.merge!(:"data-hora" => Time.now.strftime("%Y-%m-%dT%H:%M:%S")) unless parameters[:"data-hora"]
-      parameters.merge!(:descricao => "") unless parameters[:descricao]
+      # parameters.merge!(:descricao => "") unless parameters[:descricao]
       parameters.merge!(:idioma => "PT") unless parameters[:idioma]
-      parameters.merge!(:"soft-descriptor" => "") unless parameters[:"soft-descriptor"]
+      # parameters.merge!(:"soft-descriptor" => "") unless parameters[:"soft-descriptor"]
       parameters.merge!(:produto => "1") unless parameters[:produto]
       parameters.merge!(:parcelas => "1") unless parameters[:parcelas]
       parameters.merge!(:autorizar => "2") unless parameters[:autorizar]
       parameters.merge!(:capturar => "true") unless parameters[:capturar]
       parameters.merge!(:"url-retorno" => Cielo.return_path) unless parameters[:"url-retorno"]
-      parameters.merge!(:"campo-livre" => "") unless parameters[:"campo-livre"]
-      parameters.merge!(:"bin" => parameters[:numero_cartao][0..5]) if parameters[:numero_cartao]
+      # parameters.merge!(:"campo-livre" => "") unless parameters[:"campo-livre"]
+      # parameters.merge!(:"bin" => parameters[:numero_cartao][0..5]) if parameters[:numero_cartao]
       parameters
     end
     
