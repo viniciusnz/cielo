@@ -62,9 +62,9 @@ module Cielo
       parameters.merge!(:indicador => "1") unless parameters[:indicador]
       parameters.merge!(:moeda => "986") unless parameters[:moeda]
       parameters.merge!(:"data-hora" => Time.now.strftime("%Y-%m-%dT%H:%M:%S")) unless parameters[:"data-hora"]
-      parameters.merge!(:descricao => "") unless parameters[:indicador]
+      parameters.merge!(:descricao => "") unless parameters[:descricao]
       parameters.merge!(:idioma => "PT") unless parameters[:idioma]
-      parameters.merge!(:"soft-descriptor" => "") unless parameters[:indicador]
+      parameters.merge!(:"soft-descriptor" => "") unless parameters[:"soft-descriptor"]
       parameters.merge!(:produto => "1") unless parameters[:produto]
       parameters.merge!(:parcelas => "1") unless parameters[:parcelas]
       parameters.merge!(:autorizar => "2") unless parameters[:autorizar]
@@ -91,16 +91,15 @@ module Cielo
     
     def make_request!(message)
       params = { :mensagem => message }
-      
-      result = @connection.request! params
       debugger
-      parse_response(result.body_str)
+      result = @connection.request! params
+      
+      parse_response(result)
     end
     
     def parse_response(response)
-      case response
-      when Net::HTTPSuccess
-        document = REXML::Document.new(response)
+      if ["100 Continue"].include?(response.status)
+        document = REXML::Document.new(response.body_str)
         parse_elements(document.elements)
       else
         {:erro => { :codigo => "000", :mensagem => "Impossível contactar o servidor"}}
