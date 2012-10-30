@@ -93,13 +93,14 @@ module Cielo
       params = { :mensagem => message }
       
       result = @connection.request! params
-      parse_response(result)
+      debugger
+      parse_response(result.body_str)
     end
     
     def parse_response(response)
       case response
       when Net::HTTPSuccess
-        document = REXML::Document.new(response.body_str)
+        document = REXML::Document.new(response)
         parse_elements(document.elements)
       else
         {:erro => { :codigo => "000", :mensagem => "Impossível contactar o servidor"}}
