@@ -10,7 +10,6 @@ module Cielo
         if parameters[:numero_cartao]
           xml.tag!("dados-portador") do
             xml.tag!(:numero, parameters[:numero_cartao].to_s)
-            
             xml.tag!(:validade, parameters[:validade].to_s)
             [:indicador, :"codigo-seguranca"].each do |key|
               xml.tag!(key.to_s, parameters[key].to_s)
@@ -27,11 +26,11 @@ module Cielo
             xml.tag!(key.to_s, parameters[key].to_s)
           end
         end
-        xml.tag!("url-retorno", parameters[:"url-retorno"]) if parameters[:"url-retorno"]
+        xml.tag!("url-retorno", parameters[:"url-retorno"]).to_s if parameters[:"url-retorno"]
         xml.autorizar parameters[:autorizar].to_s
         xml.capturar parameters[:capturar].to_s
-        xml.tag!("campo-livre", parameters[:"campo-livre"]) if parameters[:"campo-livre"]
-        xml.tag!("bin", parameters[:bin]) if parameters[:bin]
+        xml.tag!("campo-livre", parameters[:"campo-livre"]).to_s if parameters[:"campo-livre"]
+        xml.tag!("bin", parameters[:bin]).to_s if parameters[:bin]
       end
       make_request! message
     end
@@ -90,7 +89,7 @@ module Cielo
     end
     
     def make_request!(message)
-      params = { :mensagem => message }
+      params = { :mensagem => message.to_s }
       debugger
       result = @connection.request! params
       
