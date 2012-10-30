@@ -52,6 +52,7 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<jeweler>, ["~> 1.8.3"])
       s.add_development_dependency(%q<rspec>, [">= 0"])
       s.add_development_dependency(%q<fakeweb>, [">= 0"])
+      s.add_development_dependency(%q<curb>, [">= 0"])
     else
       s.add_dependency(%q<activesupport>, [">= 3.0.7"])
       s.add_dependency(%q<i18n>, [">= 0"])
@@ -61,6 +62,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<jeweler>, ["~> 1.8.3"])
       s.add_dependency(%q<rspec>, [">= 0"])
       s.add_dependency(%q<fakeweb>, [">= 0"])
+      s.add_dependency(%q<curb>, [">= 0"])
     end
   else
     s.add_dependency(%q<activesupport>, [">= 3.0.7"])
@@ -71,6 +73,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<jeweler>, ["~> 1.8.3"])
     s.add_dependency(%q<rspec>, [">= 0"])
     s.add_dependency(%q<fakeweb>, [">= 0"])
+    s.add_dependency(%q<curb>, [">= 0"])
   end
 end
 

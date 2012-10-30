@@ -99,7 +99,7 @@ module Cielo
     def parse_response(response)
       case response
       when Net::HTTPSuccess
-        document = REXML::Document.new(response.body)
+        document = REXML::Document.new(response.body_str)
         parse_elements(document.elements)
       else
         {:erro => { :codigo => "000", :mensagem => "Impossível contactar o servidor"}}
