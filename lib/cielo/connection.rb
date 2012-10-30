@@ -6,12 +6,7 @@ module Cielo
     end
     
     def request!(params={})
-      str_params = ""
-      params.each do |key, value| 
-        str_params+="&" unless str_params.empty?
-        str_params+="#{key}=#{value}"
-      end
-      Curl.post(self.environment::API_URL, str_params)
+      Curl.post(self.environment::API_URL, params)
     end
   end
 end
