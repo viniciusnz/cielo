@@ -70,7 +70,7 @@ module Cielo
       parameters.merge!(:autorizar => "2") unless parameters[:autorizar]
       parameters.merge!(:capturar => "true") unless parameters[:capturar]
       parameters.merge!(:"url-retorno" => Cielo.return_path) unless parameters[:"url-retorno"]
-      parameters.merge!(:"campo-livre" => "") unless parameters[:"campo-livre"]
+      parameters.merge!(:"campo-livre" => "") unless parameters[:"campo-livre"] 
       parameters.merge!(:"bin" => parameters[:numero_cartao][0..5]) if parameters[:numero_cartao]
       parameters
     end
