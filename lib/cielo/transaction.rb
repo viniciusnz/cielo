@@ -11,9 +11,10 @@ module Cielo
           xml.tag!("dados-portador") do
             xml.tag!(:numero, parameters[:numero_cartao].to_s)
             xml.tag!(:validade, parameters[:validade].to_s)
-            [:indicador, :"codigo-seguranca", :"nome-portador"].each do |key|
+            [:indicador, :"codigo-seguranca"].each do |key|
               xml.tag!(key.to_s, parameters[key].to_s)
             end
+            xml.tag!(:"nome-portador", parameters[:"nome-portador"].to_s) if parameters[:"nome-portador"].to_s
           end
         end
         xml.tag!("dados-pedido") do
