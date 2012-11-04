@@ -11,7 +11,7 @@ require "builder"
 module Cielo
 
   class Production
-    API_URL = "https://ecommerce.cielo.com.br/servicos/ecommwsec.do"
+    API_URL = "https://ecommerce.cielo.com.br:443/servicos/ecommwsec.do"
   end
 
   class Test
