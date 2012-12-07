@@ -58,7 +58,7 @@ module Cielo
       [:numero, :valor, :bandeira].each do |parameter|
         raise Cielo::MissingArgumentError, "Required parameter #{parameter} not found" unless parameters[parameter]
       end
-      parameters.merge!(:validade => ["%04d" % parameters[:validade_ano], "%02d" % parameters[:validade_mes]].join("")) if parameters[:validade_ano]
+      parameters.merge!(:validade => ["%04d" % (parameters[:validade_ano].to_i.remainder(100) + 2000), "%02d" % parameters[:validade_mes].to_i].join("")) if parameters[:validade_ano]
       parameters.merge!(:indicador => "1") unless parameters[:indicador]
       parameters.merge!(:moeda => "986") unless parameters[:moeda]
       parameters.merge!(:"data-hora" => Time.now.strftime("%Y-%m-%dT%H:%M:%S")) unless parameters[:"data-hora"]
