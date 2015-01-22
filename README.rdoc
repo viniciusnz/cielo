@@ -1,12 +1,15 @@
 = cielo
 
-Integração com a Cielo via WebServices
+{<img src="https://secure.travis-ci.org/crafters/cielo.png" />}[http://travis-ci.org/crafters/cielo]
+
+Integração com a Cielo via WebServices [Buy Page Cielo / Buy Page Loja ]
 
 == Funcionalidades Implementadas
 
 * Criação de transação
 * Consulta de stauts de transação
-* Caputra de transação
+* Captura de transação
+* Cancelamento de transação
 
 == USO
 
@@ -14,10 +17,81 @@ Integração com a Cielo via WebServices
 
 === Ambiente de teste (Homologação)
 
+== Buy Page Loja
+
   transaction = Cielo::Transaction.new
-  transaction.create!(numero: "XXX", valor: "123123", moeda: "BRL", ...) #inicia uma nova transação
+
+  transaction_parameters = {
+    numero: "XXX",
+    valor: "123123",
+    moeda: "986",
+    bandeira: 'visa',
+    :'url-retorno' => 'http://url.retorno',
+    cartao_numero: '4012001037141112',
+    cartao_validade: '201805',
+    cartao_seguranca: '123',
+    cartao_portador: 'Lorem Ipsum Dolor'
+  }
+
+  transaction.create!(transaction_parameters, :store) #inicia uma nova transação
+
   transaction.verify!("TID OF THE TRANSACTION") #verifica o status de uma transação
+
   transaction.catch!("TID OF THE TRANSACTION") #captura a transação
+
+  transaction.cancel!("TID OF THE TRANSACTION") #cancela a transação
+
+== Buy Page Loja com token
+
+  token_request = Cielo::Token.new
+
+  token_parameters = {
+    :cartao_numero => '4012888888881881',  
+    :cartao_validade => '201508', 
+    :cartao_portador => 'Nome portador' }
+  }
+
+  response = token_request.create! token_parameters, :store
+  # O token pode ser armazenado no banco, será sempre igual para o cartão em questão
+  token = response[:"retorno-token"][:token][:"dados-token"][:"codigo-token"]
+
+  transaction = Cielo::Transaction.new
+
+  transaction_parameters = {
+    numero: "XXX", 
+    valor: "123123",
+    moeda: "986",
+    bandeira: 'visa',
+    parcelas: 2,
+    token: token, # Esse token substitui o cartão de crédito
+    autorizar: 3 # Quando a transação usa token, a tag 'autorizar' precisa ser 3 ou 4
+  }
+
+  transaction.create!(transaction_parameters, :store) #inicia uma nova transação
+
+Caso seja necessário fazer uma transação recorrente, basta alterar a tag autorizar para 4.
+
+Uma transação com um o campo "gerar-token" => true, gera um token correspondente que pode ser armazenado para transações futuras.
+
+== Buy Page Cielo
+
+  transaction = Cielo::Transaction.new
+
+  transaction_parameters = {
+    numero: "XXX",
+    valor: "123123",
+    moeda: "986",
+    bandeira: 'visa',
+    :'url-retorno' => 'http://url.retorno',
+  }
+
+  transaction.create!(transaction_parameters, :cielo) #inicia uma nova transação / :cielo é padrão
+
+  transaction.verify!("TID OF THE TRANSACTION") #verifica o status de uma transação
+
+  transaction.catch!("TID OF THE TRANSACTION") #captura a transação
+  
+  transaction.cancel!("TID OF THE TRANSACTION") #captura a transação
 
 === Rails
 
@@ -39,7 +113,7 @@ Se torna necessário somente configurar o módulo Cielo
 == Avisos
 
 * O retorno da cielo é convertido em um hash, então, atributos no xml como url-retorno ficam :"url-retorno", cuidado com esses detalhes.
-* Foi desenvolvido e testado em ruby 1.9.2 e 1.8.7
+* Foi desenvolvido e testado em ruby 2.0.0, 1.9.3, 1.9.2 e 1.8.7
 
 == Contributing to cielo
 
@@ -53,9 +127,12 @@ Se torna necessário somente configurar o módulo Cielo
 
 == Colaboradores
 
-* Felipe Rodrigues [ http://github/felipero http://twitter.com/felipero ]
-* Rafael Felix [ http://github/fellix http://twitter.com/rs_felix ]
+* Antônio Roberto Silva [ http://github.com/devton , http://twitter.com/dev_ton ]
+* Felipe Rodrigues [ http://github.com/felipero , http://twitter.com/felipero ]
+* Rafael Felix [ http://github.com/fellix , http://twitter.com/rs_felix ]
 * Gabriel Paladino and Scupen [https://github.com/gabpaladino , https://github.com/scupen] (Ruby 1.8.7 support)
+* Wilbert Ribeiro [https://github.com/wilbert/cielo, https://twitter.com/wilbertribeiro ]
+* Elton Okada [https://github.com/eltonokada, https://twitter.com/eltonokada ]
 
 == Copyright
 
