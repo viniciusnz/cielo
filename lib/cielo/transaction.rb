@@ -124,7 +124,7 @@ module Cielo
           to_analyze.concat([:token])
         else
           to_analyze.concat([:cartao_numero, :cartao_validade, :cartao_portador])
-          to_analyze.concat([:cartao_seguranca]) unless ['1.0.0', '1.1.0', '1.1.1'].include?(@versao)
+          to_analyze.concat([:cartao_seguranca]) unless ['1.0.0', '1.1.0', '1.1.1','1.2.1'].include?(@versao)
         end
       end
 
